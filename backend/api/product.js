@@ -4,28 +4,28 @@ module.exports = app =>{
     const  {existsOrError, notExistsOrError} = app.api.validation
 
     const save = (req, res) =>{
-        const article = { ...req.body}
-        if(req.params.id) article.id = req.params.id
+        const product = { ...req.body}
+        if(req.params.id) product.id = req.params.id
 
         try{
-            existsOrError(article.name, 'Nome nao informado')
-            existsOrError(article.description, 'Descricao nao informado')
-            existsOrError(article.categoryId, 'Cartegoria nao informada')
-            existsOrError(article.userId, 'Autor nao informado')
-            existsOrError(article.content, ' Conteudo nao informado')
+            existsOrError(product.name, 'Nome nao informado')
+            existsOrError(product.description, 'Descricao nao informado')
+            existsOrError(product.categoryId, 'Cartegoria nao informada')
+            existsOrError(product.userId, 'Autor nao informado')
+            existsOrError(product.content, ' Conteudo nao informado')
         }catch(msg){
             res.status(400).send(msg)
         }
 
-        if(article.id){
-            app.db('articles')
-            .update(article)
-            .where({id: article.id})
+        if(product.id){
+            app.db('products')
+            .update(product)
+            .where({id: product.id})
             .then(_ => res.status(204).send())
             .catch(err => res.status(500).send(err))
         }else{
-            app.db('articles')
-            .insert(article)
+            app.db('products')
+            .insert(product)
             .then(_ => res.status(204).send())
             .catch(err => res.status(500).send(err))
         }
@@ -33,7 +33,7 @@ module.exports = app =>{
 
     const remove = async (req, res)=>{
         try{
-            const rowsDeleted = await app.db('articles')
+            const rowsDeleted = await app.db('products')
             .where({id: req.params.id}).del()
             
             try{
@@ -52,22 +52,22 @@ module.exports = app =>{
     const get = async (req, res) =>{
         const page = req.query.page || 1
 
-        const result = await app.db('articles').count('id').first()
+        const result = await app.db('products').count('id').first()
         const count = parseInt(result.count)
 
-        app.db('articles')
+        app.db('products')
             .select('id', 'name', 'description')
             .limit(limit).offset(page * limit - limit)
-            .then(articles => res.json({data: articles, count, limit}))
+            .then(products => res.json({data: products, count, limit}))
             .catch(err => res.status(500).send(err))
     }
     const getById = (req, res)=>{
-        app.db('articles')
+        app.db('products')
         .where({id:req.params.id})
         .first()
-        .then(article =>{
-            article.content = article.content.toString()
-            return res.json(article)
+        .then(product =>{
+            product.content = product.content.toString()
+            return res.json(product)
         })
         .catch(err=> res.status(500).send(err))
     }
@@ -78,13 +78,13 @@ module.exports = app =>{
         const categories = await app.db.raw(queries.categoryWithChildren, categoryId)
         const ids = categories.rows.map(c=>c.id)
 
-        app.db({a: 'articles', u: 'users'})
+        app.db({a: 'products', u: 'users'})
         .select('a.id', 'a.name', 'a.description', 'a.imageUrl', {author: 'u.name'})
         .limit(limit).offset(page * limit - limit)
         .whereRaw('?? = ??', ['u.id', 'a.userId'])
         .whereIn('categoryId', ids)
         .orderBy('a.id', 'desc')
-        .then(articles => res.json(articles))
+        .then(products => res.json(products))
         .catch(err => res.status(500).send(err))
     }
 
