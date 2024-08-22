@@ -1,7 +1,7 @@
 <template>
     <div class="home">
         <PageTitleComponent icon="fa fa-home" main="Dashboard"
-        sub="Base de Conhecimento"/>
+        sub="Digital Market"/>
         <div class="stats">
             <Stat title="Categorias " :value="stat.categories"
             icon="fa fa-folder" color ="#d54d50"/>

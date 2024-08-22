@@ -9,7 +9,7 @@ module.exports = app=>{
 
     app.route('/users')
     .all(app.config.passport.authenticate())
-    .post(admin(app.api.user.save))
+    .post(app.api.user.save)
     .get(admin(app.api.user.get))
     .delete(admin(app.api.user.remove))
 
@@ -34,20 +34,20 @@ module.exports = app=>{
     .put(admin(app.api.category.save))
     .delete(admin(app.api.category.remove))
 
-    app.route('/articles')
+    app.route('/products')
     .all(app.config.passport.authenticate())
-    .get(admin(app.api.article.get))
-    .post(admin(app.api.article.save))
+    .get(admin(app.api.product.get))
+    .post(admin(app.api.product.save))
     
-    app.route('/articles/:id')
+    app.route('/products/:id')
     .all(app.config.passport.authenticate())
-    .get(app.api.article.getById)
-    .put(admin(app.api.article.save))
-    .delete(admin(app.api.article.remove))
+    .get(app.api.product.getById)
+    .put(admin(app.api.product.save))
+    .delete(admin(app.api.product.remove))
 
-    app.route('/categories/:id/articles')
+    app.route('/categories/:id/products')
     .all(app.config.passport.authenticate())
-    .get(app.api.article.getByCategory)
+    .get(app.api.product.getByCategory)
 
     app.route('/stats')
     .all(app.config.passport.authenticate())

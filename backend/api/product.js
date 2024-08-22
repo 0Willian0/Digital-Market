@@ -9,10 +9,8 @@ module.exports = app =>{
 
         try{
             existsOrError(product.name, 'Nome nao informado')
-            existsOrError(product.description, 'Descricao nao informado')
+            existsOrError(product.price, 'Preco nao informado')
             existsOrError(product.categoryId, 'Cartegoria nao informada')
-            existsOrError(product.userId, 'Autor nao informado')
-            existsOrError(product.content, ' Conteudo nao informado')
         }catch(msg){
             res.status(400).send(msg)
         }
@@ -37,7 +35,7 @@ module.exports = app =>{
             .where({id: req.params.id}).del()
             
             try{
-                existsOrError(rowsDeleted, 'Artigo nao foi encontrado')
+                existsOrError(rowsDeleted, 'Produto nao foi encontrado')
             }catch(msg){
                 res.status(400).send(msg)
             }
@@ -56,7 +54,7 @@ module.exports = app =>{
         const count = parseInt(result.count)
 
         app.db('products')
-            .select('id', 'name', 'description')
+            .select('id', 'name', 'price')
             .limit(limit).offset(page * limit - limit)
             .then(products => res.json({data: products, count, limit}))
             .catch(err => res.status(500).send(err))
@@ -65,10 +63,8 @@ module.exports = app =>{
         app.db('products')
         .where({id:req.params.id})
         .first()
-        .then(product =>{
-            product.content = product.content.toString()
-            return res.json(product)
-        })
+        .then(product => res.json(product)
+        )
         .catch(err=> res.status(500).send(err))
     }
 
@@ -78,12 +74,11 @@ module.exports = app =>{
         const categories = await app.db.raw(queries.categoryWithChildren, categoryId)
         const ids = categories.rows.map(c=>c.id)
 
-        app.db({a: 'products', u: 'users'})
-        .select('a.id', 'a.name', 'a.description', 'a.imageUrl', {author: 'u.name'})
+        app.db({p: 'products', u: 'users'})
+        .select('p.id', 'p.name', 'p.price', 'p.imageUrl')
         .limit(limit).offset(page * limit - limit)
-        .whereRaw('?? = ??', ['u.id', 'a.userId'])
         .whereIn('categoryId', ids)
-        .orderBy('a.id', 'desc')
+        .orderBy('p.id', 'desc')
         .then(products => res.json(products))
         .catch(err => res.status(500).send(err))
     }

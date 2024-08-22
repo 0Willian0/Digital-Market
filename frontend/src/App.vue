@@ -1,7 +1,7 @@
 <template>
 	<div id="app" :class="{'hide-menu': !isMenuVisible || !user}">
 		<HeaderComponent 
-		title="Base de Conhecimento" 
+		title="Digital Market" 
 		:hideToggle="!user"
 		:hideUserDropdown="!user"/>
 		<MenuComponent v-if="user"/>

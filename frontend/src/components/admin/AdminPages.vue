@@ -6,8 +6,8 @@
         <div class="admin-pages-tabs">
             <b-card no-body>
                 <b-tabs card>
-                    <b-tab title="Artigos" active>
-                        <ArticleAdminComponent/>
+                    <b-tab title="Produtos" active>
+                        <ProductAdminComponent/>
                     </b-tab>
                     <b-tab title="Categorias">
                         <CategoryAdminComponent/>
@@ -23,7 +23,7 @@
 
 <script>
 import PageTitleComponent from '../template/PageTitle'
-import ArticleAdminComponent from './ArticleAdmin.vue'
+import ProductAdminComponent from './ProductAdmin.vue'
 import CategoryAdminComponent from './CategoryAdmin.vue'
 import UserAdminComponent from './UserAdmin.vue'
 
@@ -31,7 +31,7 @@ import UserAdminComponent from './UserAdmin.vue'
 export default {
     name:'AdminPages',
     components: {PageTitleComponent, 
-    ArticleAdminComponent,
+    ProductAdminComponent,
     CategoryAdminComponent,
     UserAdminComponent}
 }
