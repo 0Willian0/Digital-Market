@@ -1,6 +1,5 @@
 <template>
     <div class="product-item">
-        <router-link :to="{name: 'productById', params:{id: product.id} }">
             <div class="product-item-image d-none d-sm-block">
                 <img v-if="product.imageUrl"
                     :src="product.imageUrl"
@@ -12,8 +11,11 @@
             <div class="product-item-info">
                 <h2>{{product.name}}</h2>
                 <p>R${{product.price}}</p>
+                <button class="btn btn-success fa fa-shopping-cart">
+                 Comprar
+                </button>
             </div>
-        </router-link>
+            
     </div>
 </template>
 
@@ -25,20 +27,17 @@ export default {
 </script>
 
 <style>
+
     .product-item{
+        display: flex;
+        flex-direction: row;
         border-radius: 8px;
         margin-bottom: 20px;
+        margin-right: 20px;
         background-color: #FFF;
-        padding: 20px;
+        padding: 30px;
         border: 1px solid rgba(0, 0, 0, 0.2);
         box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
-    }
-
-    .product-item a{
-        display: flex;
-        align-items: flex-start;
-        text-decoration: none;
-        color: #000;
     }
 
     .product-item-info h2{

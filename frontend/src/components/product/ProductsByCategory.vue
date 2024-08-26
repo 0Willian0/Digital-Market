@@ -68,6 +68,8 @@ export default {
 
 <style>
     .products-by-category ul{
+        display: flex;
+        flex-direction: row;
         list-style: none;
         padding: 0px;
     }
