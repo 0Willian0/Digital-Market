@@ -1,35 +1,35 @@
 <template>
     <div class="home">
-        <PageTitleComponent icon="fa fa-home" main="Dashboard"
+        <PageTitleComponent icon="fa fa-home" main="Pagina Inicial"
         sub="Digital Market"/>
-        <div class="stats">
-            <Stat title="Categorias " :value="stat.categories"
-            icon="fa fa-folder" color ="#d54d50"/>
-            <Stat title="Artigos " :value="stat.articles"
-            icon="fa fa-file" color ="#3bc480"/>
-            <Stat title="Usuarios " :value="stat.users"
-            icon="fa fa-user" color ="#3282cd"/>
-        </div>
+        <AllProducts/>
+
     </div>
+    
 </template>
 
 <script>
 import PageTitleComponent from '../template/PageTitle'
+import AllProducts from './AllProducts.vue'
 import Stat from './Stat'
 import axios from 'axios'
 import {baseApiUrl} from '@/global'
+
 export default {
     name: 'Home',
-    components: {PageTitleComponent, Stat},
+    components: {PageTitleComponent, Stat, AllProducts},
     data: function(){
         return{
-            stat: {}
+            category: {},
+            products: [],
+            page: 1,
+            loadMore: true
         }
     },
     methods:{
         getStats(){
             axios.get(`${baseApiUrl}/stats`).then(res=>this.stat = res.data)
-        }
+        },
     },
     mounted(){
         this.getStats()

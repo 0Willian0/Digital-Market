@@ -40,7 +40,7 @@ export default {
         getProducts(){
             const url = `${baseApiUrl}/categories/${this.category.id}/products?page=${this.page}`
             axios(url).then(res=>{
-                this.products = this.products.concat(res.data)
+                this.products = res.data
                 this.page++
 
                 if(res.data.length === 0) this.loadMore = false
@@ -71,6 +71,8 @@ export default {
         display: flex;
         flex-direction: row;
         list-style: none;
+        flex-wrap: wrap;
+        gap: 10px;
         padding: 0px;
     }
 

@@ -54,11 +54,20 @@ module.exports = app =>{
         const count = parseInt(result.count)
 
         app.db('products')
-            .select('id', 'name', 'price')
+            .select('id', 'name', 'price', 'imageUrl')
             .limit(limit).offset(page * limit - limit)
             .then(products => res.json({data: products, count, limit}))
             .catch(err => res.status(500).send(err))
     }
+
+    const getAll = (req, res)=>{
+        app.db('products')
+        .select('id', 'name', 'price', 'imageUrl')
+        .then(product => res.json(product)
+        )
+        .catch(err=> res.status(500).send(err))
+    }
+
     const getById = (req, res)=>{
         app.db('products')
         .where({id:req.params.id})
@@ -83,5 +92,5 @@ module.exports = app =>{
         .catch(err => res.status(500).send(err))
     }
 
-    return {save, remove, get, getById, getByCategory}
+    return {save, remove, get, getById, getByCategory, getAll}
 }

@@ -38,6 +38,9 @@ module.exports = app=>{
     .all(app.config.passport.authenticate())
     .get(admin(app.api.product.get))
     .post(admin(app.api.product.save))
+
+    app.route('/allproducts')
+    .get(app.api.product.getAll)
     
     app.route('/products/:id')
     .all(app.config.passport.authenticate())
