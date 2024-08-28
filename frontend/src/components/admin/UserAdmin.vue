@@ -19,6 +19,14 @@
                         placeholder="Informe o E-mail do Usuario..."/>
                     </b-form-group>
                 </b-col>
+                <b-col md="6" sm="12">
+                    <b-form-group label="Saldo:" label-for="user-balance">
+                        <b-form-input id="user-balance" type="text"
+                        v-model="user.balance" required
+                        :readonly="mode === 'remove'"
+                        placeholder="Informe o Saldo do Usuario..."/>
+                    </b-form-group>
+                </b-col>
             </b-row>
             <b-form-checkbox id="user-admin" v-model="user.admin" class="mt-3 mb-3" v-show="mode === 'save'">
                 Administrador?
@@ -78,6 +86,7 @@ export default {
                 {key: 'id', label: 'Codigo', sortable: true},
                 {key: 'name', label: 'Nome', sortable: true},
                 {key: 'email', label: 'E-mail', sortable: true},
+                {key: 'balance', label: 'Saldo', sortable: true},
                 {key: 'admin', label: 'Administrator', sortable: true,
                     formatter: value => value ? 'Sim' : 'Nao'},
                 {key: 'actions', label: 'Ações'}

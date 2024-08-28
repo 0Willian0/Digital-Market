@@ -11,8 +11,8 @@
             <div class="product-item-info">
                 <h2>{{product.name}}</h2>
                 <p>R${{product.price}}</p>
-                <button class="btn btn-success fa fa-shopping-cart">
-                 Comprar
+                <button class="btn btn-success fa fa-plus">
+                 Carrinho
                 </button>
             </div>
             

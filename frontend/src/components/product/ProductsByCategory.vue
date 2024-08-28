@@ -40,7 +40,7 @@ export default {
         getProducts(){
             const url = `${baseApiUrl}/categories/${this.category.id}/products?page=${this.page}`
             axios(url).then(res=>{
-                this.products = res.data
+                this.products = this.products.concat(res.data)
                 this.page++
 
                 if(res.data.length === 0) this.loadMore = false

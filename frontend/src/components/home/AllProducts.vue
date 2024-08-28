@@ -27,10 +27,16 @@ export default {
         getProducts() {
             const url = `${baseApiUrl}/allproducts`
             axios(url).then(res=>{
-                this.products = this.products.concat(res.data)
+                this.products = res.data
                 console.log(this.products)
             })
-    }
+        }
+    },
+    watch:{
+        $route(to){
+            this.products = []
+            this.getProducts()
+        }
     },
     mounted(){
         this.getProducts()
@@ -47,6 +53,11 @@ export default {
         flex-wrap: wrap;
         gap: 10px;
         padding: 0px;
+    }
+
+    .all-products li{
+        flex: 1;
+        text-align: center;
     }
     
 </style>

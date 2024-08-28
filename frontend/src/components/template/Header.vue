@@ -14,16 +14,18 @@
             {{title}}
         </h1>
 
-        
+        <UserBalanceComponent/>
         <UserDropdownComponent v-if="!hideUserDropdown"/>
     </header>
 </template>
 
 <script>
+import UserBalanceComponent from './UserBalance.vue'
 import UserDropdownComponent from './UserDropdown.vue'
+
 export default {
     name: 'Header',
-    components: {UserDropdownComponent},
+    components: {UserDropdownComponent,UserBalanceComponent},
     props:{
         title: String,
         hideToggle: Boolean,
