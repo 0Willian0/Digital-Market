@@ -47,8 +47,11 @@ module.exports= app=>{
         }else{
             app.db('users')
             .insert(user)
+            .then(_ => {
+                return app.db('carts').insert({ user_id: user.id });
+            })
             .then(_ => res.status(204).send())
-            .catch(err => res.status(500).send(err))
+            .catch(err => res.status(500).send(err));
         }
     }
     
@@ -72,13 +75,10 @@ module.exports= app=>{
 
     const remove = async(req,res)=>{
         try{
-            const articles = await app.db('articles')
-                .where({userId: req.params.id})
-                notExistsOrError(articles, 'Usuario possui artigos')
-
                 const rowUpdated = await app.db('users')
                 .update({deletedAt: new Date()})
                 .where({id: req.params.id})
+                
                 existsOrError(rowUpdated, 'Usuario nao foi encontrado')
                 res.status(204).send()
             }catch(msg){
