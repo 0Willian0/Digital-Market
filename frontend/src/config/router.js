@@ -5,6 +5,7 @@ import Home from '../components/home/Home'
 import AdminPages from '../components/admin/AdminPages'
 import ProductsByCategory from '@/components/product/ProductsByCategory'
 import ProductById from '@/components/product/ProductById'
+import Cart from '@/components/cart/Cart'
 import Auth from '@/components/auth/Auth'
 import {userKey} from '@/global'
 
@@ -28,6 +29,10 @@ const routes = [{
     name: 'productById',
     path: '/products/:id',
     component: ProductById
+},{
+    name: 'cart',
+    path: '/cart',
+    component: Cart
 },{
     name: 'auth',
     path: '/auth',

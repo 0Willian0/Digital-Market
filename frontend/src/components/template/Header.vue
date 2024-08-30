@@ -13,7 +13,7 @@
         <h1 class="title" v-else>
             {{title}}
         </h1>
-
+        <UserCart/>
         <UserBalanceComponent/>
         <UserDropdownComponent v-if="!hideUserDropdown"/>
     </header>
@@ -22,10 +22,11 @@
 <script>
 import UserBalanceComponent from './UserBalance.vue'
 import UserDropdownComponent from './UserDropdown.vue'
+import UserCart from './UserCart.vue'
 
 export default {
     name: 'Header',
-    components: {UserDropdownComponent,UserBalanceComponent},
+    components: {UserDropdownComponent,UserBalanceComponent, UserCart},
     props:{
         title: String,
         hideToggle: Boolean,

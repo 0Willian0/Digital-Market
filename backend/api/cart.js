@@ -23,7 +23,7 @@ module.exports = app =>{
 
     const remove = async (req, res)=>{
         try{
-            const rowsDeleted = await app.db('carts')
+            const rowsDeleted = await app.db('cart')
             .where({id: req.params.id}).del()
             
             try{
@@ -38,36 +38,20 @@ module.exports = app =>{
         }
     }
 
-    const get = (req, res)=>{
-        app.db('carts')
-        .select('id', 'carts_id')
-        .then(cart => res.json(cart)
-        )
-        .catch(err=> res.status(500).send(err))
+    const getUserCart = async(req, res)=>{
+
+        const userId = req.params.id; // ID do usuário passado na requisição
+
+        app.db('carts as c')
+        .select('p.id', 'p.name', 'p.imageUrl', 'p.price')
+        .join('products as p', 'c.product_id', '=', 'p.id')
+        .then(result => res.json(result))
+        .catch(err => {
+        console.error('Database query error:', err);
+        res.status(500).send('An error occurred');
+    });
     }
 
-    const getById = (req, res)=>{
-        app.db('carts')
-        .where({id:req.params.id})
-        .first()
-        .then(cart => res.json(cart)
-        )
-        .catch(err=> res.status(500).send(err))
-    }
 
-    const getByItems = async(req, res)=>{
-        const itemId = req.params.id
-        const categories = await app.db.raw(queries.categoryWithChildren, categoryId)
-        const ids = categories.rows.map(c=>c.id)
-
-        app.db({p: 'products'})
-        .select('p.id', 'p.name', 'p.price', 'p.imageUrl')
-        .limit(limit).offset(page * limit - limit)
-        .whereIn('categoryId', ids)
-        .orderBy('p.id', 'desc')
-        .then(products => res.json(products))
-        .catch(err => res.status(500).send(err))
-    }
-
-    //return {save, remove, get, getById, getByItems, getAll}
+    return {save, remove, getUserCart}
 }
