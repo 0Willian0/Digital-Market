@@ -13,8 +13,8 @@
         <h1 class="title" v-else>
             {{title}}
         </h1>
-        <UserCart/>
-        <UserBalanceComponent/>
+        <UserCart v-if="!hideUserDropdown"/>
+        <UserBalanceComponent v-if="!hideUserDropdown"/>
         <UserDropdownComponent v-if="!hideUserDropdown"/>
     </header>
 </template>

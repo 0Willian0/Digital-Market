@@ -11,8 +11,8 @@
             <div class="product-item-info">
                 <h2>{{product.name}}</h2>
                 <p>R${{product.price}}</p>
-                <button class="btn btn-success fa fa-plus" @click='save()'>
-                 Carrinho
+                <button class="btn btn-danger fa fa-minus" @click='remove()'>
+                 Remover
                 </button>
             </div>
             
@@ -20,6 +20,7 @@
 </template>
 
 <script>
+
 import {mapState} from 'vuex'
 import axios from 'axios'
 import {baseApiUrl} from '@/global'
@@ -29,8 +30,9 @@ export default {
     props: ['product'],
     computed: mapState(['user']),
     methods: {
-        save(){
-            axios.post(`${baseApiUrl}/cart/${this.user.id}/${this.product.id}`)
+        remove(){
+            const id = this.user.id
+            axios.delete(`${baseApiUrl}/cart/${this.user.id}/${this.product.id}`)
             .then(()=>{
                 this.$toasted.global.defaultSuccess()
             })

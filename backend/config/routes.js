@@ -19,9 +19,10 @@ module.exports = app=>{
     .get(admin(app.api.user.getById))
     .delete(admin(app.api.user.remove))
 
-    app.route('/cart')
+    app.route('/cart/:id1/:id2')
     .all(app.config.passport.authenticate())
     .post(app.api.cart.save)
+    .delete(app.api.cart.remove)
 
     app.route('/cart/:id')
     .all(app.config.passport.authenticate())

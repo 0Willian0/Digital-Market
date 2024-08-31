@@ -4,37 +4,43 @@ module.exports = app =>{
     const  {existsOrError, notExistsOrError} = app.api.validation
 
     const save = (req, res) =>{
-        const cart = { ...req.body}
-        if(req.params.id) cart.id = req.params.id
-
-        if(cart.id){
-            app.db('carts')
-            .update(cart)
-            .where({id: cart.id})
-            .then(_ => res.status(204).send())
-            .catch(err => res.status(500).send(err))
-        }else{
+        const cart = { 
+            user_id: req.params.id1,
+            product_id: req.params.id2
+        }
             app.db('carts')
             .insert(cart)
             .then(_ => res.status(204).send())
             .catch(err => res.status(500).send(err))
-        }
     }
 
     const remove = async (req, res)=>{
-        try{
-            const rowsDeleted = await app.db('cart')
-            .where({id: req.params.id}).del()
-            
-            try{
-                existsOrError(rowsDeleted, 'Carrinho nao foi encontrado')
-            }catch(msg){
-                res.status(400).send(msg)
+        try {
+            const record = await app.db('carts')
+                .where({
+                    user_id: req.params.id1,
+                    product_id: req.params.id2
+                })
+                .first();  // Obtém o primeiro registro que corresponde às condições
+        
+            if (record) {
+                const rowsDeleted = await app.db('carts')
+                    .where({
+                        id: record.id  // Usa o ID do registro para garantir a exclusão correta
+                    })
+                    .del();
+        
+                if (rowsDeleted > 0) {
+                    res.status(204).send();  // Sucesso: 204 No Content
+                } else {
+                    res.status(404).send({ message: 'No matching record found' });  // Erro: 404 Not Found
+                }
+            } else {
+                res.status(404).send({ message: 'No matching record found' });  // Erro: 404 Not Found
             }
-
-            res.status(204).send()
-        }catch(msg){
-            res.status(500).send(msg)
+        } catch (error) {
+            console.error('Error:', error);  // Log de erro para depuração
+            res.status(500).send({ error: 'Internal Server Error' });  // Erro: 500 Internal Server Error
         }
     }
 
@@ -45,10 +51,12 @@ module.exports = app =>{
         app.db('carts as c')
         .select('p.id', 'p.name', 'p.imageUrl', 'p.price')
         .join('products as p', 'c.product_id', '=', 'p.id')
+        .where('c.user_id', userId)
         .then(result => res.json(result))
         .catch(err => {
         console.error('Database query error:', err);
         res.status(500).send('An error occurred');
+
     });
     }
 

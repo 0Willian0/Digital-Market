@@ -16,8 +16,18 @@ export default {
 </script>
 
 <style>
+
     .user-cart{
         position: relative;
+        display: flex;
+        align-items: center;
+        color: #fff;
+        font-weight: 100;
+        height: 100%;
+    }
+
+    .user-cart:hover{
+        background-color: rgba(0, 0, 0, 0.2);
     }   
 
     .user-cart a{
@@ -27,7 +37,6 @@ export default {
 
     .user-cart a:hover{
         text-decoration: none;
-        color: #000;
-
+        color: #FFF;
     }
 </style>

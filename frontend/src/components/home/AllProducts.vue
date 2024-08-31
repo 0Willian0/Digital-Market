@@ -28,14 +28,7 @@ export default {
             const url = `${baseApiUrl}/allproducts`
             axios(url).then(res=>{
                 this.products = res.data
-                console.log(this.products)
             })
-        }
-    },
-    watch:{
-        $route(to){
-            this.products = []
-            this.getProducts()
         }
     },
     mounted(){
