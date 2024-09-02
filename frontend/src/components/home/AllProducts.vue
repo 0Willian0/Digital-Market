@@ -46,11 +46,14 @@ export default {
         flex-wrap: wrap;
         gap: 10px;
         padding: 0px;
+        justify-content: left;
     }
 
     .all-products li{
-        flex: 1;
-        text-align: center;
+        flex-basis: 300px;
+        text-align: left;
     }
+
+
     
 </style>

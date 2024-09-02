@@ -41,6 +41,9 @@ export default {
         toggleMenu(){
             this.$store.commit('toggleMenu')
         }
+    },
+    mounted(){
+        this.components
     }
 }
 </script>

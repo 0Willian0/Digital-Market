@@ -60,6 +60,22 @@ module.exports= app=>{
         .catch(err => res.status(500).send(err))
     }
 
+    const putBalance = (req, res)=>{
+        const { balance } = req.body; // Obtenha o novo saldo do corpo da requisição
+
+        // Verifique se o valor do balance foi fornecido
+        if (balance === undefined) {
+            return res.status(400).send({ error: 'Balance is required' });
+        }
+    
+        // Atualize o saldo no banco de dados
+        app.db('users')
+            .where({ id: req.params.id })
+            .update({ balance }) // Atualize a coluna balance com o valor fornecido
+            .then(() => res.status(204).send()) // Retorna 204 No Content em caso de sucesso
+            .catch(err => res.status(500).send(err)); // Lida com erros no servidor
+    };
+
     const getById = (req, res)=>{
         app.db('users')
         .select('id', 'name', 'email', 'admin', 'balance')
@@ -82,5 +98,5 @@ module.exports= app=>{
                 res.status(400).send(msg)
             }
     }
-    return {save,get, getById, remove}
+    return {save, putBalance, get, getById, remove}
 }

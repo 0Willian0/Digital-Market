@@ -27,6 +27,12 @@ module.exports = app=>{
     app.route('/cart/:id')
     .all(app.config.passport.authenticate())
     .get(app.api.cart.getUserCart)
+    .delete(app.api.cart.pay)
+    
+    app.route('/cartPrice/:id')
+    .all(app.config.passport.authenticate())
+    .get(app.api.cart.getTotalPrice)
+    .put(app.api.user.putBalance)
 
     app.route('/categories')
     .all(app.config.passport.authenticate())

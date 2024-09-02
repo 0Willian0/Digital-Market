@@ -44,9 +44,40 @@ module.exports = app =>{
         }
     }
 
+    const pay = async (req, res)=>{
+        try {
+            const record = await app.db('carts')
+                .where({
+                    user_id: req.params.id,
+                }).del()
+                res.status(204).send();
+        } catch (error) {
+            console.error('Error:', error);  // Log de erro para depuração
+            res.status(500).send({ error: 'Internal Server Error' });  // Erro: 500 Internal Server Error
+        }
+    }
+
+    const getTotalPrice = async(req, res)=>{
+        const userId = req.params.id
+
+        app.db('carts as c')
+        .join('products as p', 'c.product_id', '=', 'p.id')
+        .where('c.user_id', userId)
+        .sum('p.price as totalPrice')  // Soma dos preços
+        .then(result => {
+            // O resultado será um array com um objeto contendo a soma dos preços
+            const totalPrice = result[0].totalPrice || 0;
+            res.json({ totalPrice });
+        })
+        .catch(err => {
+            console.error('Database query error:', err);
+            res.status(500).send('An error occurred');
+        });
+    }
+
     const getUserCart = async(req, res)=>{
 
-        const userId = req.params.id; // ID do usuário passado na requisição
+        const userId = req.params.id // ID do usuário passado na requisição
 
         app.db('carts as c')
         .select('p.id', 'p.name', 'p.imageUrl', 'p.price')
@@ -61,5 +92,5 @@ module.exports = app =>{
     }
 
 
-    return {save, remove, getUserCart}
+    return {save, remove, pay, getUserCart, getTotalPrice}
 }

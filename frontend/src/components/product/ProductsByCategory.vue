@@ -74,6 +74,12 @@ export default {
         flex-wrap: wrap;
         gap: 10px;
         padding: 0px;
+        justify-content: left;
+    }
+
+    .products-by-category li{
+        flex-basis: 300px;
+        text-align: left;
     }
 
     .products-by-category .load-more{
