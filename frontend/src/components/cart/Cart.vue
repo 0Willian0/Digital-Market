@@ -7,10 +7,13 @@
                 <CartItem :product="product"/>
             </li>
         </ul>
-        <div class="cart-total-value">
+        <h3 v-if="isNull">
+            Carrinho Vazio!
+        </h3>
+        <h4 v-if="!isNull">
             Preco Total: R${{this.price.totalPrice}}
-        </div>
-        <button class="btn btn-success" @click='pay()'>
+        </h4>
+        <button class="btn btn-success" @click='pay()' v-if="!isNull">
             Pagar
         </button>
     </div>
@@ -25,7 +28,6 @@ import CartItem from './CartItem.vue'
 
 export default {
     name: 'Cart',
-    props: ['carts'],
     computed: mapState(['user']),
     components: {PageTitle, CartItem},
     data: function(){
@@ -33,6 +35,8 @@ export default {
             products: [],
             users: [],
             price: 0,
+            isNull: false,
+            json: {}
         }
     },
     methods: {
@@ -40,6 +44,10 @@ export default {
             const url = `${baseApiUrl}/cart/${this.user.id}`
             axios(url).then(res=>{
                 this.products = res.data
+                if(this.products.length == 0)
+                    this.isNull = true
+                else
+                    this.isNull = false
             })
         },
         getUser(){
@@ -59,10 +67,18 @@ export default {
                 const newBalance = this.users.balance = this.users.balance - this.price.totalPrice
                 const urlPut = `${baseApiUrl}/cartPrice/${this.user.id}`
                 const urlDelete = `${baseApiUrl}/cart/${this.user.id}`
+                const urlGet = `${baseApiUrl}/cartHistory/${this.user.id}`
+                const urlPostHistory = `${baseApiUrl}/history`
 
-                axios.put(urlPut, {"balance": newBalance}).then(()=>{
-                    axios.delete(urlDelete).then(()=>{
-                        this.$toasted.global.defaultSuccess()
+                axios.put(urlPut, {"balance": newBalance}).then(()=>{ 
+                    axios.get(urlGet).then(res=>{
+                        const json = res.data
+                        axios.post(urlPostHistory, json).then(()=>{
+                                axios.delete(urlDelete).then(()=>{
+                                this.$toasted.global.defaultSuccess()
+                            })
+                        })
+                        
                     })
                 })
             }
@@ -93,6 +109,10 @@ export default {
     .cart li{
         flex-basis: 300px;
         text-align: left;
+    }
+
+    .cart h3{
+        text-align: center;
     }
 
 </style>

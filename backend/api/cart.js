@@ -57,6 +57,22 @@ module.exports = app =>{
         }
     }
 
+    const getForHistory = async(req, res)=>{
+        const userId = req.params.id
+
+        const cart = await app.db('carts')
+        .select('user_id','product_id')
+        .where('user_id', userId)
+
+        const history = cart.map(product=>({
+            ...product,
+            dateBuyed: new Date()
+        }))
+
+        res.json(history)
+
+    }
+
     const getTotalPrice = async(req, res)=>{
         const userId = req.params.id
 
@@ -87,10 +103,9 @@ module.exports = app =>{
         .catch(err => {
         console.error('Database query error:', err);
         res.status(500).send('An error occurred');
-
-    });
+        });
     }
 
 
-    return {save, remove, pay, getUserCart, getTotalPrice}
+    return {save, remove, pay, getUserCart, getTotalPrice, getForHistory}
 }

@@ -6,6 +6,8 @@ import AdminPages from '../components/admin/AdminPages'
 import ProductsByCategory from '@/components/product/ProductsByCategory'
 import ProductById from '@/components/product/ProductById'
 import Cart from '@/components/cart/Cart'
+import History from '@/components/history/History'
+import HistoryProducts from '@/components/history/HistoryProducts'
 import Auth from '@/components/auth/Auth'
 import {userKey} from '@/global'
 
@@ -30,9 +32,17 @@ const routes = [{
     path: '/products/:id',
     component: ProductById
 },{
+    name: 'historyProducts',
+    path: '/historyProducts/:dateBuyed',
+    component: HistoryProducts
+},{
     name: 'cart',
     path: '/cart',
     component: Cart
+},{
+    name: 'history',
+    path: '/history',
+    component: History
 },{
     name: 'auth',
     path: '/auth',
