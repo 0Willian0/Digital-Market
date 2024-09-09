@@ -27,6 +27,14 @@
                         placeholder="Informe o Saldo do Usuario..."/>
                     </b-form-group>
                 </b-col>
+                <b-col md="6" sm="12">
+                <b-form-group label="Imagem (URL):" label-for="user-imageUrl">
+                        <b-form-input id="user-imageUrl" type="text"
+                        v-model="user.imageUrl" required
+                        :readonly="mode === 'remove'"
+                        placeholder="Informe a URL da Imagem..."/>
+                    </b-form-group>
+                </b-col>
             </b-row>
             <b-form-checkbox id="user-admin" v-model="user.admin" class="mt-3 mb-3" v-show="mode === 'save'">
                 Administrador?

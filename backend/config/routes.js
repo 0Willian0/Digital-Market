@@ -47,6 +47,10 @@ module.exports = app=>{
     .post(app.api.history.save)
     .get(app.api.history.getProducts)
 
+    app.route('/historyProducts')
+    .all(app.config.passport.authenticate())
+    .get(app.api.history.getTotalPrice)
+
     app.route('/categories')
     .all(app.config.passport.authenticate())
     .get(admin(app.api.category.get))

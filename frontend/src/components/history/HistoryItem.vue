@@ -11,6 +11,7 @@
             <div class="product-item-info">
                 <h2>{{product.name}}</h2>
                 <p>R${{product.price}}</p>
+                <p>Horario: {{formatTime(product.dateBuyed)}}</p>
             </div>
             
     </div>
@@ -24,6 +25,15 @@ export default {
     name: 'ProductItem',
     props: ['product'],
     computed: mapState(['user']),
+    methods:{
+        formatTime(dateBuyed) {
+      if (!dateBuyed) return '';  // Caso a data seja nula ou indefinida
+
+      const date = new Date(dateBuyed);  // Converter o timestamp em um objeto Date
+      // Converter para o horário de Brasília (GMT-3) e retornar apenas a hora
+      return date.toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+    }
+    }
 }
 </script>
 

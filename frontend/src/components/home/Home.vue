@@ -26,21 +26,10 @@ export default {
             loadMore: true
         }
     },
-    methods:{
-        getStats(){
-            axios.get(`${baseApiUrl}/stats`).then(res=>this.stat = res.data)
-        },
-    },
-    mounted(){
-        this.getStats()
-    }
+
 }
 </script>
 
 <style>
-    .stats{
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-    }
+
 </style>

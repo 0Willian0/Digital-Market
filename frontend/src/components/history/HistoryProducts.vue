@@ -6,6 +6,9 @@
                 <HistoryItem :product="product"/>
             </li>
         </ul>
+        <h2>
+            Total Gasto: R${{this.price.totalPrice}}
+        </h2>
     </div>
     
 </template>
@@ -16,25 +19,39 @@ import PageTitle from '../template/PageTitle.vue'
 import HistoryItem from './HistoryItem.vue'
 import axios from 'axios'
 import {baseApiUrl} from '@/global'
+import {mapState} from 'vuex'
 
 export default {
     name: 'HistoryProducts',
     components: {PageTitle, HistoryItem},
+    computed: mapState(['user']),
     data: function(){
         return{
-            products: {}
+            products: {},
+            price: 0
         }
     },
     methods:{
-         getProducts(){
+        getProducts(){
             const url = `${baseApiUrl}/history`
-            axios.get(url,{ params:{ dateBuyed: this.$route.params.dateBuyed}}).then(res=>{
+            axios.get(url,{ params:{ dateBuyed: this.$route.params.dateBuyed,
+                                     userId: this.user.id
+            }}).then(res=>{
                 this.products = res.data
             })
         },
+        getTotalPrice(){
+            const url = `${baseApiUrl}/historyProducts`
+            axios.get(url,{params:{ dateBuyed: this.$route.params.dateBuyed,
+                                     userId: this.user.id
+            }}).then(res=>{
+                this.price = res.data
+            })
+        }
     },
     mounted(){
         this.getProducts()
+        this.getTotalPrice()
     }
 
 }

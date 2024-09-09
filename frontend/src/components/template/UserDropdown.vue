@@ -3,7 +3,11 @@
         <div class="user-button">
             <span class="d-none d-sm-block">{{user.name}}</span>
             <div class="user-dropdown-img">
-                <Gravatar :email="user.email" alt="User"/>
+                
+                <img v-if="user.imageUrl"
+                    :src="user.imageUrl" alt="User">
+
+                <Gravatar v-else :email="user.email" alt="User"/>
             </div>
             <i class="fa fa-angle-down"></i>
         </div>

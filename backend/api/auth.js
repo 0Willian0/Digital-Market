@@ -25,6 +25,7 @@ module.exports = app=>{
             email: user.email,
             admin: user.admin,
             balance: user.balance,
+            imageUrl: user.imageUrl,
             iat: now,
             exp: now + (60 * 60 * 24* 3) // (segundos * minutos * horas * dias)
         }
